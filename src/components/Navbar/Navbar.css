@@ -1,0 +1,14 @@
+.Navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 50px;
+    background-color: #206A85;
+}
+
+.Navbar span {
+    color: white;
+    font-size: 3em;
+}
+

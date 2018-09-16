@@ -1,0 +1,31 @@
+.StudentInfoTop {
+    margin: 30px 20px;
+    display: inline-flex;
+    align-items: center;
+    height: 80px;
+    width: 200px;
+}
+
+.StudentInfoTop img{
+    border-radius: 50%;
+    height: 80px;
+    width: 80px;
+}
+
+.StudentInfoTop Info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 40px;
+    margin-top: 20px;
+    width: inherit;
+    height: inherit;
+}
+
+.Info span {
+    color: #206A85;
+}
+
+.Info p {
+    color: lightgray;
+}

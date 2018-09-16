@@ -1,0 +1,30 @@
+.StudentInfo {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: 300px;
+    background-color: #206A85;
+    margin: 30px 20px;
+}
+
+.StudentInfo h3 {
+    color: white;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+
+.StudentInfo span {
+    color: white;
+    margin-left: 10px;
+}
+
+.StudentInfo button {
+    background-color: #009688;
+    color: white;
+    outline: none;
+    cursor: pointer;
+    width: 10%;
+    margin-top: 30px;
+    margin-left: 10px;
+}
