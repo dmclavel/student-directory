@@ -5,6 +5,7 @@ import Navbar from '../../components/Navbar/Navbar'
 import StudentLeftWindow from '../../components/StudentInfoWindow/StudentLeftWindow'
 import StudentRightWindow from '../../components/StudentInfoWindow/StudentRightWindow'
 import Spinner from '../../components/Spinner/Spinner'
+import Error from '../../Error/Error'
 import Aux from '../../hoc/Auxiliary/Auxiliary'
 import classes from './Student.css'
 
@@ -14,7 +15,9 @@ class Student extends Component {
         studentInfo: {},   
         loading: true,
         showInfo: false,
-        showInfoLoading: false
+        showInfoLoading: false,
+        isError: false,
+        errorMsg: ''
     }
 
     componentDidMount () {
@@ -28,7 +31,8 @@ class Student extends Component {
                 }
             })
             .catch(error => {
-                console.log(error);
+                this.setState({isError: true,
+                errorMsg: error.message});
             })
     }
 
@@ -45,7 +49,8 @@ class Student extends Component {
                 }
             })
             .catch(error => {
-                console.err(error);
+                this.setState({isError: true,
+                    errorMsg:error.message});
             })
     }
 
@@ -66,11 +71,20 @@ class Student extends Component {
 
         return (
             <Aux>
-                <Navbar />
-                <div className={classes.Student}>
-                    {studentInfo}
-                    {content}
-                </div>
+                {
+                    !this.state.isError ?
+                        <Aux>
+                            <Navbar />
+                            <div className={classes.Student}>
+                                {studentInfo}
+                                {content}
+                            </div>
+                        </Aux>
+                        :
+                        <Aux>
+                            <Error message={this.state.errorMsg}/>
+                        </Aux>
+                }
             </Aux>
         )
     }
