@@ -6,8 +6,8 @@ import classes from './StudentLeftWindow.css'
 
 const studentLeftWindow = (props) => (
     <div className={classes.StudentLeftWindow}>
-        <StudentInfoTop />
-        <StudentInfo />
+        <StudentInfoTop studentInfo={props.studentInfo}/>
+        <StudentInfo studentInfo={props.studentInfo}/>
     </div>
 );
 
