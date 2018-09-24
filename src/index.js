@@ -66,7 +66,7 @@ function addOrUpdateIndexRecord(student) {
   index
     .saveObject(record)
     .then(() => {
-      console.log('Firebase object indexed in Algolia', record.objectID);
+      // console.log('Firebase object indexed in Algolia', record.objectID);
     })
     .catch(error => {
       console.error('Error when indexing student into Algolia', error);
@@ -81,7 +81,7 @@ function deleteIndexRecord(student) {
   index
     .deleteObject(objectID)
     .then(() => {
-      console.log('Firebase object deleted from Algolia', objectID);
+      // console.log('Firebase object deleted from Algolia', objectID);
     })
     .catch(error => {
       console.error('Error when deleting student from Algolia', error);
