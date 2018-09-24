@@ -55,7 +55,7 @@ class Student extends Component {
     }
 
     handleEdit = (id) => {
-        console.log(id);
+        // console.log(id);
     }
 
     render () {
