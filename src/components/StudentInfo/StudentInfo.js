@@ -16,7 +16,7 @@ const studentInfo = (props) => (
         <span> Guardian: {props.studentInfo.guardian} </span>
         <span> Contact Number/s of Guardian: {props.studentInfo.contactno_guardian} </span>
 
-        <button> Edit </button>
+        <button onClick={() => props.edit(props.studentInfo.id)}> Edit </button>
     </div>
 );
 

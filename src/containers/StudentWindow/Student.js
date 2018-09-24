@@ -54,12 +54,16 @@ class Student extends Component {
             })
     }
 
+    handleEdit = (id) => {
+        console.log(id);
+    }
+
     render () {
         let content = null;
-        let studentInfo = <StudentLeftWindow studentInfo={this.state.studentInfo}/>;
+        let studentInfo = <StudentLeftWindow studentInfo={this.state.studentInfo} edit={(id) => this.handleEdit(id)}/>;
 
         if(this.state.showInfo)
-            studentInfo = <StudentLeftWindow studentInfo={this.state.studentInfo}/>
+            studentInfo = <StudentLeftWindow studentInfo={this.state.studentInfo} edit={(id) => this.handleEdit(id)}/>
         
         if(this.state.showInfoLoading)
             studentInfo = <Spinner />
