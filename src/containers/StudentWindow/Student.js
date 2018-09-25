@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import axios from 'axios'
+import React, { Component } from 'react';
+import axios from 'axios';
 
-import Navbar from '../../components/Navbar/Navbar'
-import StudentLeftWindow from '../../components/StudentInfoWindow/StudentLeftWindow'
-import StudentRightWindow from '../../components/StudentInfoWindow/StudentRightWindow'
-import Spinner from '../../components/Spinner/Spinner'
-import Error from '../../Error/Error'
-import Aux from '../../hoc/Auxiliary/Auxiliary'
-import classes from './Student.css'
+import Navbar from '../../components/Navbar/Navbar';
+import StudentLeftWindow from '../../components/StudentInfoWindow/StudentLeftWindow';
+import StudentRightWindow from '../../components/StudentInfoWindow/StudentRightWindow';
+import Spinner from '../../components/Spinner/Spinner';
+import Error from '../../Error/Error';
+import Aux from '../../hoc/Auxiliary/Auxiliary';
+import classes from './Student.css';
 
 class Student extends Component {
     state = {
@@ -18,7 +18,7 @@ class Student extends Component {
         showInfoLoading: false,
         isError: false,
         errorMsg: ''
-    }
+    };
 
     componentDidMount () {
         axios.get('https://student-directory-uplb.firebaseio.com/.json')
@@ -37,7 +37,7 @@ class Student extends Component {
     }
 
     handleDataClick = (stdKey) => {
-        this.setState({showInfoLoading: true})
+        this.setState({showInfoLoading: true});
         axios.get('https://student-directory-uplb.firebaseio.com/' + stdKey + '/.json')
             .then(response => {
                 if(response.data) {
@@ -52,26 +52,26 @@ class Student extends Component {
                 this.setState({isError: true,
                     errorMsg:error.message});
             })
-    }
+    };
 
     handleEdit = (id) => {
         // console.log(id);
-    }
+    };
 
     render () {
         let content = null;
         let studentInfo = <StudentLeftWindow studentInfo={this.state.studentInfo} edit={(id) => this.handleEdit(id)}/>;
 
         if(this.state.showInfo)
-            studentInfo = <StudentLeftWindow studentInfo={this.state.studentInfo} edit={(id) => this.handleEdit(id)}/>
+            studentInfo = <StudentLeftWindow studentInfo={this.state.studentInfo} edit={(id) => this.handleEdit(id)}/>;
         
         if(this.state.showInfoLoading)
-            studentInfo = <Spinner />
+            studentInfo = <Spinner />;
 
         if (!this.state.loading) 
-            content = <StudentRightWindow studentData={this.state.students} clicked={stdKey => this.handleDataClick(stdKey)}/>
+            content = <StudentRightWindow studentData={this.state.students} clicked={stdKey => this.handleDataClick(stdKey)}/>;
         else 
-            content = <Spinner />
+            content = <Spinner />;
 
         return (
             <Aux>
