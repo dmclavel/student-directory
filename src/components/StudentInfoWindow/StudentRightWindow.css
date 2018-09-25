@@ -1,7 +1,6 @@
 .StudentRightWindow {
     height: 500px;
     width: 50%;
-    border-top-color: none;
     border-style: inset;
     margin: 20px 20px;
 }
@@ -30,6 +29,7 @@
     flex-direction: column;
     align-content: center;
     height: 50px;
+    width: 80%;
 }
 
 .StudentBoxesLeft img {
@@ -40,4 +40,53 @@
     color: white;
     font-size: 15px;
     margin-left: 20px;
+    width: 100%;
+}
+
+
+@media only screen and (max-width: 599px) {
+    .StudentRightWindow {
+        height: 500px;
+        width: 95%;
+        border-style: inset;
+        margin: 10px 10px;
+    }
+
+    .StudentBoxes {
+        height: auto;
+        width: 60%;
+        margin-top: 10px;
+        margin-left: 50px;
+        background-color: #206A85;
+        display: flex;
+        flex-direction: row;
+        border-style: outset;
+        cursor: pointer;
+    }
+
+    .StudentBoxesLeft {
+        display: inherit;
+        flex-direction: inherit;
+        width: 30%;
+        height: 50px;
+    }
+
+    .StudentBoxesRight {
+        display: inherit;
+        flex-direction: column;
+        align-content: center;
+        height: 50px;
+        width: 100%;
+    }
+
+    .StudentBoxesLeft img {
+        height: 50px;
+    }
+
+    .StudentBoxesRight span {
+        color: white;
+        font-size: 15px;
+        margin-left: 20px;
+        width: 100%;
+    }
 }
