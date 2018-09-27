@@ -5,9 +5,9 @@ import Navbar from '../../components/Navbar/Navbar';
 import StudentLeftWindow from '../../components/StudentInfoWindow/StudentLeftWindow';
 import StudentRightWindow from '../../components/StudentInfoWindow/StudentRightWindow';
 import Spinner from '../../components/Spinner/Spinner';
-import Error from '../../Error/Error';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import classes from './Student.css';
+import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary";
 
 class Student extends Component {
     state = {
@@ -15,9 +15,7 @@ class Student extends Component {
         studentInfo: {},   
         loading: true,
         showInfo: false,
-        showInfoLoading: false,
-        isError: false,
-        errorMsg: ''
+        showInfoLoading: false
     };
 
     componentDidMount () {
@@ -31,8 +29,7 @@ class Student extends Component {
                 }
             })
             .catch(error => {
-                this.setState({isError: true,
-                errorMsg: error.message});
+
             })
     }
 
@@ -49,8 +46,7 @@ class Student extends Component {
                 }
             })
             .catch(error => {
-                this.setState({isError: true,
-                    errorMsg:error.message});
+
             })
     };
 
@@ -74,22 +70,15 @@ class Student extends Component {
             content = <Spinner />;
 
         return (
-            <Aux>
-                {
-                    !this.state.isError ?
-                        <Aux>
-                            <Navbar />
-                            <div className={classes.Student}>
-                                {studentInfo}
-                                {content}
-                            </div>
-                        </Aux>
-                        :
-                        <Aux>
-                            <Error message={this.state.errorMsg}/>
-                        </Aux>
-                }
-            </Aux>
+            <ErrorBoundary>
+                <Aux>
+                    <Navbar />
+                    <div className={classes.Student}>
+                        {studentInfo}
+                        {content}
+                    </div>
+                </Aux>
+            </ErrorBoundary>
         )
     }
 }
