@@ -1,28 +1,22 @@
-.StudentInfo {
+.StudentInfoEdit {
     display: flex;
     flex-direction: column;
     width: 90%;
-    height: auto;
+    height: 300px;
     background-color: #206A85;
     margin: 30px 20px;
     overflow: auto;
 }
 
-.StudentInfo h3 {
+.StudentInfoEdit h3 {
     color: white;
     margin-top: 10px;
     margin-bottom: 20px;
     margin-left: 10px;
 }
 
-.StudentInfo span {
-    color: white;
-    margin-left: 10px;
-    font-size: 16px;
-}
-
-.StudentInfo button {
-    height: auto;
+.StudentInfoEdit button {
+    height: 60px;
     background-color: #009688;
     color: white;
     outline: none;
@@ -30,4 +24,16 @@
     width: 100px;
     margin-top: 30px;
     margin-left: 10px;
+}
+
+.AlignInputField {
+    display: inline-block;
+    border: 1px solid #ccc;
+    padding: 5px 5px;
+}
+
+.AlignInputField span {
+    text-transform: capitalize;
+    color: white;
+    padding: 5px 5px
 }
