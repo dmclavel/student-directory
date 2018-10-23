@@ -6,9 +6,9 @@ import StudentLeftWindow from '../../components/StudentInfoWindow/StudentLeftWin
 import StudentLeftWindowEdit from '../../components/StudentInfoWindow/StudentLeftWindowEdit';
 import StudentRightWindow from '../../components/StudentInfoWindow/StudentRightWindow';
 import Spinner from '../../components/Spinner/Spinner';
-// import Aux from '../../hoc/Auxiliary/Auxiliary';
+import Aux from '../../hoc/Auxiliary/Auxiliary';
 import classes from './Student.css';
-import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary";
+import * as Sentry from '@sentry/browser';
 // import studentInfo from "../../components/StudentInfo/StudentInfo";
 
 class Student extends Component {
@@ -32,8 +32,17 @@ class Student extends Component {
                 }
             })
             .catch(error => {
-
+                Sentry.captureException(error);
             })
+    }
+
+    componentDidCatch (error, errorInfo) {
+        Sentry.withScope(scope => {
+            Object.keys(errorInfo).forEach(key => {
+                scope.setExtra(key, errorInfo[key]);
+            });
+            Sentry.captureException(error);
+        });
     }
 
     handleDataClick = (stdKey) => {
@@ -49,7 +58,7 @@ class Student extends Component {
                 }
             })
             .catch(error => {
-
+                Sentry.captureException(error);
             })
     };
 
@@ -60,11 +69,14 @@ class Student extends Component {
     };
 
     handleInfoChange = (event, id, key) => {
+        const students = {...this.state.students};
         const studObject = {...this.state.studentInfo};
         studObject[key] = event.target.value;
+        students[id] = studObject;
 
         this.setState({
-            studentInfo: studObject
+            studentInfo: studObject,
+            students: students
         });
     };
 
@@ -75,8 +87,8 @@ class Student extends Component {
                     inEditMode: false
                 })
             })
-            .catch(err => {
-                console.log(err);
+            .catch(error => {
+                Sentry.captureException(error);
             });
     };
 
@@ -104,14 +116,15 @@ class Student extends Component {
         }
 
         return (
-            <ErrorBoundary>
+            <Aux>
                 <Navbar />
                 <div className={classes.Student}>
                     {studentInfo}
                     {content}
                 </div>
-            </ErrorBoundary>
-        )
+            </Aux>
+        );
+
     }
 }
 

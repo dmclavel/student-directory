@@ -23,13 +23,13 @@ const studentRightWindow = (props) => {
                 </div>
             </div>
         )
-    })
+    });
 
     return (
         <div className={classes.StudentRightWindow}>
             {content}
         </div>
     )
-}
+};
 
 export default studentRightWindow;

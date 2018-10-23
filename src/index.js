@@ -7,9 +7,20 @@ import registerServiceWorker from './registerServiceWorker';
 const algoliasearch = require('algoliasearch');
 const dotenv = require('dotenv');
 const firebase = require('firebase');
+const sentry = require('@sentry/browser');
 
 // load values from the .env file in this directory into process.env
 dotenv.load();
+sentry.init({ //calling sentry.init even before the React App is rendered
+ dsn: "https://e132f6143b2d4956b4d107e1975a6914@sentry.io/1296134",
+    maxBreadcrumbs: 50,
+    debug: true,
+    beforeSend (event) {
+     if (event.exception)
+         sentry.showReportDialog();
+     return event;
+    }
+});
 
 // configure firebase
 firebase.initializeApp({
