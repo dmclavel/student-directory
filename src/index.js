@@ -5,8 +5,9 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
 const algoliasearch = require('algoliasearch');
+const firebase = require('firebase/app');
+require('firebase/database');
 const dotenv = require('dotenv');
-const firebase = require('firebase');
 const sentry = require('@sentry/browser');
 
 // load values from the .env file in this directory into process.env
@@ -22,9 +23,15 @@ sentry.init({ //calling sentry.init even before the React App is rendered
     }
 });
 
+
 // configure firebase
 firebase.initializeApp({
+  apiKey: "AIzaSyBgih9qE3yjjZof2baS1NrqkY95Pc-9o3o",
+    authDomain: "student-directory-uplb.firebaseapp.com",
   databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+  projectId: "student-directory-uplb",
+    storageBucket: "student-directory-uplb.appspot.com",
+    messagingSenderId: "754904258700"
 });
 
 const database = firebase.database();
