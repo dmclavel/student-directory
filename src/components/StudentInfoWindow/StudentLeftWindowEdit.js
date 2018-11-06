@@ -17,6 +17,7 @@ const studentLeftWindowEdit = (props) => {
             <StudentInfoTop studentInfo={props.studentInfo}/>
             <StudentInfoEdit studentInfo={studInfoArray} id={props.studentInfo.id}
                              done={(id) => props.done(id)}
+                             cancel={(id) => props.cancel(id)}
                              changed={(event, id, key) => props.changed(event, id, key)}/>
         </div>
     );

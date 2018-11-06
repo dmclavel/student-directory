@@ -1,20 +1,55 @@
 .Navbar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
     height: 50px;
-    background-color: #206A85;
+    background: linear-gradient(to right, #074075, rgb(119, 74, 7));
 }
 
-.Navbar span {
-    color: white;
-    font-size: 3em;
+.NavLeft {
+    display: inline-flex;
+    margin-left: 10px;
+    padding-top: 10px;
+}
+
+.NavLeft span {
+    color: #fff;
+    font-size: 2em;
+}
+
+
+.NavRight {
+    display: inline-flex;
+    margin-left: 45%;
+    padding-top: 10px;
+}
+
+.NavRight a {
+    color: #fff;
+    font-size: 2em;
+    margin: 0 20px;
+    text-decoration: none;
+}
+
+.NavRight a:hover,
+.NavRight a:active {
+    color: #088596;
 }
 
 @media only screen and (max-width: 599px) {
-    .Navbar span {
-        font-size: 1.35em;
+    .NavLeft {
+        padding-top: 20px;
+    }
+
+    .NavLeft span {
+        font-size: 0.6em;
+    }
+
+    .NavRight {
+        margin-left: 15%;
+        padding-top: 20px;
+    }
+
+    .NavRight a {
+        font-size: 0.6em;
+        margin: 0 10px;
     }
 }
 

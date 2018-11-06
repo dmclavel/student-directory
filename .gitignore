@@ -1,5 +1,11 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+#ignore firebase hosting files
+.firebaserc
+database.rules.json
+firebase.json
+storage.rules
+
 # dependencies
 /node_modules
 
@@ -8,6 +14,10 @@
 
 # production
 /build
+
+#functions
+/fuctions
+/functions/node_modules
 
 # misc
 .env

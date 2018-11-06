@@ -4,7 +4,8 @@
     width: 90%;
     height: auto;
     background-color: #206A85;
-    margin: 30px 20px;
+    margin: 0 20px;
+    margin-bottom: 20px;
     overflow: auto;
 }
 
@@ -28,6 +29,6 @@
     outline: none;
     cursor: pointer;
     width: 100px;
-    margin-top: 30px;
+    margin: 30px 0;
     margin-left: 10px;
 }

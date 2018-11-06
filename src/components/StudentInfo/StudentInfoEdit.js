@@ -20,7 +20,10 @@ const studentInfoEdit = (props) => {
                 Information Details
             </h3>
             {inputFields}
-            <button onClick={() => props.done(props.id)}> Submit to Database </button>
+            <section>
+                <button className={classes.StudentInfoEdit__Button} onClick={() => props.done(props.id)}> Submit </button>
+                <button className={classes.StudentInfoEdit__Button} onClick={() => props.cancel(props.id)}> Cancel </button>
+            </section>
         </div>
     );
 

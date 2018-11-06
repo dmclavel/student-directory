@@ -22,7 +22,7 @@ class Student extends Component {
     };
 
     componentDidMount () {
-        axios.get('https://student-directory-uplb.firebaseio.com/.json')
+        axios.get('https://student-directory-uplb.firebaseio.com/.json?uid=efecee9d-9962-4d37-96bd-b6338bf36bef')
             .then(response => {
                 if(response.data) {
                     this.setState({
@@ -63,9 +63,13 @@ class Student extends Component {
     };
 
     handleEdit = (id) => {
-        this.setState({
-            inEditMode: true
-        });
+        if (Object.keys(this.state.studentInfo).length !== 0) {
+            this.setState({
+                inEditMode: true
+            });
+        } else {
+            alert('Click any student data on the right part of the screen first!');
+        }
     };
 
     handleInfoChange = (event, id, key) => {
@@ -92,6 +96,12 @@ class Student extends Component {
             });
     };
 
+    cancelEdit = (id) => {
+        this.setState({
+            inEditMode: false
+        });
+    };
+
     render () {
         let content = null;
         let studentInfo = <StudentLeftWindow studentInfo={this.state.studentInfo} edit={(id) => this.handleEdit(id)}/>;
@@ -100,6 +110,7 @@ class Student extends Component {
             studentInfo = (
                 <StudentLeftWindowEdit studentInfo={this.state.studentInfo}
                                        done={(id) => this.submitChange(id)}
+                                       cancel={(id) => this.cancelEdit(id)}
                                        changed={(event, id, key) => this.handleInfoChange(event, id, key)}/>
             );
 
