@@ -1,5 +1,6 @@
 import React from 'react'
 
+import Aux from '../../hoc/Auxiliary/Auxiliary';
 import classes from './Navbar.css'
 
 const navbar = (props) => (
@@ -11,7 +12,10 @@ const navbar = (props) => (
             <a href="#home"> Student Section </a>
             <a href="#about"> About </a>
             {!props.authenticated ?
-                <span onClick={props.login}> Login </span>
+                <Aux>
+                    <span onClick={props.login}> Login </span>
+                    <span onClick={props.showSignUp}> Register </span>
+                </Aux>
                 :
                 <span onClick={props.logout}> Logout </span>
             }

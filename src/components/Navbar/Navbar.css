@@ -53,6 +53,10 @@
 
     .NavRight a {
         margin: 0 5px;
-    };
+    }
+
+    .Navbar span {
+        margin: 0 5px;
+    }
 }
 

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import fire from './config/fire';
 import StudentWindow from './containers/StudentWindow/Student';
 import Aux from './hoc/Auxiliary/Auxiliary';
-import * as Sentry from '@sentry/browser';
 class App extends Component {
   state = {
     user: {},
