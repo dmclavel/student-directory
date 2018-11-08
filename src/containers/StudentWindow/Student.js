@@ -145,13 +145,7 @@ class Student extends Component {
       };
     
       logout = () => {
-        fire.auth().signOut()
-            .then(response => {
-
-            })
-            .catch(error => {
-                this.setState({ errorLoginMsg: error.message });
-            });
+        fire.auth().signOut();
       };
 
     render () {
