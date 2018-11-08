@@ -190,7 +190,6 @@ class Student extends Component {
                         </div> 
                     }
                 </Modal>
-                }
                 <div className={classes.Student}>
                     {this.state.errorLoginMsg === null ? null: <p style={{color: '#CD295A', fontWeight: 'bold', textAlign: 'center'}}> {this.state.errorLoginMsg} </p>}
                     {studentInfo}
