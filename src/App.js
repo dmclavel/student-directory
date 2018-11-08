@@ -27,22 +27,6 @@ class App extends Component {
     })
   };
 
-  login = async (event, email, password) => {
-    event.preventDefault();
-    await this.setState({user: {email, password}});
-    fire.auth().signInWithEmailAndPassword(this.state.user.email, this.state.user.password)
-      .then(userState => {
-
-      })
-      .catch(error => {
-        Sentry.captureException(error);
-      });
-  };
-
-  logout = () => {
-    fire.auth().signOut();
-  };
-
   render() {
     return (
       <Aux>
