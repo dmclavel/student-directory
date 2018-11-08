@@ -19,12 +19,15 @@ class Student extends Component {
         emailUserAdd: '',
         emailUserPass: '',
         errorLoginMsg: null,
+        successMessage: null,
         loading: true,
         modalLoading: false,
         showInfo: false,
         showInfoLoading: false,
         inEditMode: false,
-        onShowModal: false
+        onShowLoginModal: false,
+        onShowSignupModal: false,
+        onShowSuccessModal: false
     };
 
     componentDidMount () {
@@ -111,13 +114,30 @@ class Student extends Component {
 
     showLoginModal = () => {
         this.setState({
-            onShowModal: true
+            onShowLoginModal: true
+        });
+    };
+
+    showSignUp = () => {
+        this.setState({
+            onShowSignupModal: true
         });
     };
 
     closeLoginModal = () => {
         this.setState({
-            onShowModal: false
+            emailUserAdd: '',
+            emailUserPass: '',
+            onShowLoginModal: false,
+            onShowSignupModal: false,
+            errorLoginMsg: null
+        });
+    };
+
+    closeSuccessModal = () => {
+        this.setState({
+            onShowSuccessModal: false,
+            successMessage: null
         });
     };
 
@@ -136,12 +156,45 @@ class Student extends Component {
           .then(userState => {
             this.setState({ 
                 modalLoading: false,
-                onShowModal: false 
+                onShowLoginModal: false,
+                errorLoginMsg: null,
+                emailUserAdd: '',
+                emailUserPass: '' 
             });
           })
           .catch(error => {
-            this.setState({errorLoginMsg: error.message, modalLoading: false});
+            this.setState({
+                emailUserAdd: '',
+                emailUserPass: '', 
+                errorLoginMsg: error.message, 
+                modalLoading: false
+            });
           });
+      };
+
+      signup = (event, email, password) => {
+        event.preventDefault();
+        this.setState({ modalLoading: true });
+        fire.auth().createUserWithEmailAndPassword(email, password)
+            .then(userState => {
+                this.setState({ 
+                    modalLoading: false,
+                    onShowSignupModal: false,
+                    onShowSuccessModal: true,
+                    successMessage: 'Successfully signed up!',
+                    errorLoginMsg: null,
+                    emailUserAdd: '',
+                    emailUserPass: '' 
+                });
+            })
+            .catch(error => {
+                this.setState({
+                    emailUserAdd: '',
+                    emailUserPass: '', 
+                    errorLoginMsg: error.message, 
+                    modalLoading: false
+                });
+            });
       };
     
       logout = () => {
@@ -175,23 +228,46 @@ class Student extends Component {
         
         return (
             <Aux>
-                <Navbar login={this.showLoginModal} logout={this.logout} authenticated={this.props.authenticated}/>
-                <Modal show={this.state.onShowModal} closeModal={this.closeLoginModal}
+                <Navbar login={this.showLoginModal} logout={this.logout}
+                        showSignUp={this.showSignUp} 
+                        signup={this.signup}
+                        authenticated={this.props.authenticated}/>
+                <Modal show={this.state.onShowLoginModal}
                         backdropClicked={this.closeLoginModal}>
                     {this.state.modalLoading ?
                         <Spinner modal={true}/>
                         :
                         <div className={classes.LoginModal}>
-                            <input type="text" placeholder="Email-address" onChange={this.handleEmailChange} value={this.emailUserAdd} />
-                            <input type="password" placeholder="Password" onChange={this.handlePasswordChange} value={this.emailUserPass} />
+                            <input type="text" placeholder="Email-address" onChange={this.handleEmailChange} value={this.state.emailUserAdd} />
+                            <input type="password" placeholder="Password" onChange={this.handlePasswordChange} value={this.state.emailUserPass} />
                             {this.state.errorLoginMsg === null ? null: <p style={{color: '#CD295A', fontWeight: 'bold', textAlign: 'center'}}> {this.state.errorLoginMsg} </p>}
                             <button onClick={(event) => this.login(event, this.state.emailUserAdd, this.state.emailUserPass)}> Login </button>
                             <button onClick={this.closeLoginModal}> Cancel </button>
                         </div> 
                     }
                 </Modal>
+                <Modal show={this.state.onShowSignupModal} backdropClicked={this.closeLoginModal} 
+                        closeModal={this.closeLoginModal}>
+                    {this.state.modalLoading ?
+                        <Spinner modal={true}/>
+                        :
+                        <div className={classes.LoginModal}>
+                            <input type="text" placeholder="Email-address" onChange={this.handleEmailChange} value={this.state.emailUserAdd} />
+                            <input type="password" placeholder="Password" onChange={this.handlePasswordChange} value={this.state.emailUserPass} />
+                            {this.state.errorLoginMsg === null ? null: <p style={{color: '#CD295A', fontWeight: 'bold', textAlign: 'center'}}> {this.state.errorLoginMsg} </p>}
+                            <button onClick={(event) => this.signup(event, this.state.emailUserAdd, this.state.emailUserPass)}> Sign Up </button>
+                            <button onClick={this.closeLoginModal}> Cancel </button>
+                        </div> 
+                    }
+                </Modal>
+                <Modal show={this.state.onShowSuccessModal} backdropClicked={this.closeSuccessModal}
+                        closeModal={this.closeSuccessModal}>
+                    <div className={classes.SuccessModal}>
+                        <strong style={{color: '#CD295A'}}> {this.state.successMessage} </strong>
+                        <button onClick={this.closeSuccessModal}> Done </button>
+                    </div>
+                </Modal>
                 <div className={classes.Student}>
-                    {this.state.errorLoginMsg === null ? null: <p style={{color: '#CD295A', fontWeight: 'bold', textAlign: 'center'}}> {this.state.errorLoginMsg} </p>}
                     {studentInfo}
                     {content}
                 </div>

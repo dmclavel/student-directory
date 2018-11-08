@@ -28,9 +28,29 @@
     outline: none;
 }
 
+.SuccessModal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.SuccessModal button {
+    margin: 20px;
+    width: 20%;
+    border-radius: 20px;
+    cursor: pointer;
+    border: 1px solid #CD295A;
+    background-color: #CD295A;
+    color: #fff;
+}
+
 @media only screen and (max-width: 599px) {
     .Student {
         display: flex;
         flex-direction: column;
+    }
+
+    .LoginModal button {
+        width: 30%;
     }
 }
