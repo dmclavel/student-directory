@@ -2,7 +2,7 @@ import React from 'react'
 
 import classes from './Navbar.css'
 
-const navbar = () => (
+const navbar = (props) => (
     <nav className={classes.Navbar}>
         <div className={classes.NavLeft}>
             <span> STUDENT INFORMATION SYSTEM </span>
@@ -10,6 +10,11 @@ const navbar = () => (
         <div className={classes.NavRight}>
             <a href="#home"> Student Section </a>
             <a href="#about"> About </a>
+            {!props.authenticated ?
+                <span onClick={props.login}> Login </span>
+                :
+                <span onClick={props.logout}> Logout </span>
+            }
         </div>
     </nav>
 );

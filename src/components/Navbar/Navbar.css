@@ -32,11 +32,18 @@
     color: white;
 }
 
+.NavRight span {
+    margin: 0 20px;
+    color: white;
+    cursor: pointer;
+}
+
 .Navbar a:hover,
-.Navbar a:active {
-    border-bottom: 3px solid #38ADAE;
+.Navbar a:active,
+.Navbar span:hover,
+.Navbar span:active {
+    text-decoration: underline;
     color: #38ADAE;
-    font-weight: bold;
 }
 
 @media only screen and (max-width: 599px) {
