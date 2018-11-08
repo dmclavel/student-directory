@@ -5,6 +5,29 @@
     overflow: auto;
 }
 
+.LoginModal {
+    display: flex;
+    flex-direction: column;
+}
+
+.LoginModal input {
+    margin: 10px;
+    height: 30px;
+    border: 3px solid #CD295A;
+    padding: 0 20px;
+    border-radius: 20px;
+    outline: none;
+}
+
+.LoginModal button {
+    width: 20%;
+    margin: 10px;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+    cursor: pointer;
+    border-radius: 20px;
+    outline: none;
+}
+
 @media only screen and (max-width: 599px) {
     .Student {
         display: flex;

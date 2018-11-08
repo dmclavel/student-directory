@@ -6,19 +6,25 @@ import StudentLeftWindow from '../../components/StudentInfoWindow/StudentLeftWin
 import StudentLeftWindowEdit from '../../components/StudentInfoWindow/StudentLeftWindowEdit';
 import StudentRightWindow from '../../components/StudentInfoWindow/StudentRightWindow';
 import Spinner from '../../components/Spinner/Spinner';
+import Modal from '../../components/LoginModal/LoginModal';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import classes from './Student.css';
 import * as Sentry from '@sentry/browser';
-// import studentInfo from "../../components/StudentInfo/StudentInfo";
+import fire from '../../config/fire';
 
 class Student extends Component {
     state = {
         students: null,
-        studentInfo: {},   
+        studentInfo: {},
+        emailUserAdd: '',
+        emailUserPass: '',
+        errorLoginMsg: null,
         loading: true,
+        modalLoading: false,
         showInfo: false,
         showInfoLoading: false,
-        inEditMode: false
+        inEditMode: false,
+        onShowModal: false
     };
 
     componentDidMount () {
@@ -28,7 +34,8 @@ class Student extends Component {
                     this.setState({
                         students: response.data,
                         loading: false
-                    })
+                    });
+                    console.log(this.state);
                 }
             })
             .catch(error => {
@@ -102,6 +109,51 @@ class Student extends Component {
         });
     };
 
+    showLoginModal = () => {
+        this.setState({
+            onShowModal: true
+        });
+    };
+
+    closeLoginModal = () => {
+        this.setState({
+            onShowModal: false
+        });
+    };
+
+    handleEmailChange = (event) => {
+        this.setState({ emailUserAdd: event.target.value });
+    };
+
+    handlePasswordChange = (event) => {
+        this.setState({ emailUserPass: event.target.value });
+    };
+
+    login = (event, email, password) => {
+        event.preventDefault();
+        this.setState({ modalLoading: true });
+        fire.auth().signInWithEmailAndPassword(email, password)
+          .then(userState => {
+            this.setState({ 
+                modalLoading: false,
+                onShowModal: false 
+            });
+          })
+          .catch(error => {
+            this.setState({errorLoginMsg: error.message, modalLoading: false});
+          });
+      };
+    
+      logout = () => {
+        fire.auth().signOut()
+            .then(response => {
+
+            })
+            .catch(error => {
+                this.setState({ errorLoginMsg: error.message });
+            });
+      };
+
     render () {
         let content = null;
         let studentInfo = <StudentLeftWindow studentInfo={this.state.studentInfo} edit={(id) => this.handleEdit(id)}/>;
@@ -120,16 +172,33 @@ class Student extends Component {
 
 
         if (!this.state.loading) {
-            content = <StudentRightWindow studentData={this.state.students}
+            content = <StudentRightWindow  authenticated={this.props.authenticated}
+                                        studentData={this.state.students}
                                           clicked={stdKey => this.handleDataClick(stdKey)}/>;
         } else {
             content = <Spinner/>;
         }
-
+        
         return (
             <Aux>
-                <Navbar />
+                <Navbar login={this.showLoginModal} logout={this.logout} authenticated={this.props.authenticated}/>
+                <Modal show={this.state.onShowModal} closeModal={this.closeLoginModal}
+                        backdropClicked={this.closeLoginModal}>
+                    {this.state.modalLoading ?
+                        <Spinner modal={true}/>
+                        :
+                        <div className={classes.LoginModal}>
+                            <input type="text" placeholder="Email-address" onChange={this.handleEmailChange} value={this.emailUserAdd} />
+                            <input type="password" placeholder="Password" onChange={this.handlePasswordChange} value={this.emailUserPass} />
+                            {this.state.errorLoginMsg === null ? null: <p style={{color: '#CD295A', fontWeight: 'bold', textAlign: 'center'}}> {this.state.errorLoginMsg} </p>}
+                            <button onClick={(event) => this.login(event, this.state.emailUserAdd, this.state.emailUserPass)}> Login </button>
+                            <button onClick={this.closeLoginModal}> Cancel </button>
+                        </div> 
+                    }
+                </Modal>
+                }
                 <div className={classes.Student}>
+                    {this.state.errorLoginMsg === null ? null: <p style={{color: '#CD295A', fontWeight: 'bold', textAlign: 'center'}}> {this.state.errorLoginMsg} </p>}
                     {studentInfo}
                     {content}
                 </div>
