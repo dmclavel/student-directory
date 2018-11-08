@@ -1,55 +1,51 @@
 .Navbar {
-    height: 50px;
-    background: linear-gradient(to right, #074075, rgb(119, 74, 7));
+    display: flex;
+    justify-content: flex-end;
+    height: auto;
+    background: linear-gradient(to right, #38ADAE, #CD295A);
+    text-align: right;
 }
 
 .NavLeft {
-    display: inline-flex;
-    margin-left: 10px;
-    padding-top: 10px;
+    display: inherit;
+    padding: 20px;
+    color: white;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    width: 100%;
 }
-
-.NavLeft span {
-    color: #fff;
-    font-size: 2em;
-}
-
 
 .NavRight {
-    display: inline-flex;
-    margin-left: 45%;
-    padding-top: 10px;
+    display: inherit;
+    padding: 20px;
+    color: white;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+    width: 100%;
 }
 
 .NavRight a {
-    color: #fff;
-    font-size: 2em;
-    margin: 0 20px;
     text-decoration: none;
+    margin: 0 20px;
+    color: white;
 }
 
-.NavRight a:hover,
-.NavRight a:active {
-    color: #088596;
+.Navbar a:hover,
+.Navbar a:active {
+    border-bottom: 3px solid #38ADAE;
+    color: #38ADAE;
+    font-weight: bold;
 }
 
 @media only screen and (max-width: 599px) {
-    .NavLeft {
-        padding-top: 20px;
-    }
-
-    .NavLeft span {
-        font-size: 0.6em;
-    }
-
-    .NavRight {
-        margin-left: 15%;
-        padding-top: 20px;
+    .Navbar {
+        font-size: 0.5em;
     }
 
     .NavRight a {
-        font-size: 0.6em;
-        margin: 0 10px;
-    }
+        margin: 0 5px;
+    };
 }
 
