@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 import Navbar from '../../components/Navbar/Navbar';
 import StudentLeftWindow from '../../components/StudentInfoWindow/StudentLeftWindow';
 import StudentLeftWindowEdit from '../../components/StudentInfoWindow/StudentLeftWindowEdit';
 import StudentRightWindow from '../../components/StudentInfoWindow/StudentRightWindow';
-import Spinner from '../../components/Spinner/Spinner';
-import Modal from '../../components/LoginModal/LoginModal';
+import Spinner from '../../components/UI/Spinner/Spinner';
+import MainSpinner from '../../components/UI/Spinner/MainSpinner';
+import Modal from '../../components/UI/LoginModal/LoginModal';
+import SpinnerModal from '../../components/UI/SpinnerModal/SpinnerModal';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import classes from './Student.css';
 import * as Sentry from '@sentry/browser';
@@ -22,28 +23,27 @@ class Student extends Component {
         successMessage: null,
         loading: true,
         modalLoading: false,
+        spinnerModalLoading: false,
         showInfo: false,
         showInfoLoading: false,
         inEditMode: false,
         onShowLoginModal: false,
         onShowSignupModal: false,
-        onShowSuccessModal: false
+        onShowSuccessModal: false,
     };
 
     componentDidMount () {
-        axios.get('https://student-directory-uplb.firebaseio.com/.json?uid=efecee9d-9962-4d37-96bd-b6338bf36bef')
-            .then(response => {
-                if(response.data) {
-                    this.setState({
-                        students: response.data,
-                        loading: false
-                    });
-                    console.log(this.state);
-                }
-            })
-            .catch(error => {
-                Sentry.captureException(error);
-            })
+        fire.database().ref('studentsData').on('value', (snapshot) => {
+            if (snapshot.val()) {
+                this.setState({
+                    students: snapshot.val(),
+                    loading: false
+                });
+            }
+        }, 
+        () => {
+            this.setState({ loading: false });
+        });
     }
 
     componentDidCatch (error, errorInfo) {
@@ -57,19 +57,18 @@ class Student extends Component {
 
     handleDataClick = (stdKey) => {
         this.setState({showInfoLoading: true});
-        axios.get('https://student-directory-uplb.firebaseio.com/' + stdKey + '/.json')
-            .then(response => {
-                if(response.data) {
-                    this.setState({
-                        studentInfo: response.data,
-                        showInfo: true,
-                        showInfoLoading: false
-                    })
-                }
-            })
-            .catch(error => {
-                Sentry.captureException(error);
-            })
+        fire.database().ref('studentsData/' + stdKey).on('value', (snapshot) => {
+            if (snapshot.val()) {
+                this.setState({
+                    studentInfo: snapshot.val(),
+                    showInfo: true,
+                    showInfoLoading: false
+                });
+            }
+        },
+        (error) => {
+            console.log(error);
+        });
     };
 
     handleEdit = (id) => {
@@ -95,15 +94,19 @@ class Student extends Component {
     };
 
     submitChange = (id) => {
-        axios.put('https://student-directory-uplb.firebaseio.com/' + id + '/.json', this.state.studentInfo)
-            .then(res => {
-                this.setState({
-                    inEditMode: false
-                })
+        if (fire.auth().currentUser !== null && this.props.isVerified) {
+            fire.database().ref('studentsData/' + id).set({
+                ...this.state.studentInfo
             })
-            .catch(error => {
-                Sentry.captureException(error);
+            .then(res => {
+                this.setState({ inEditMode: false })
+            })
+            .catch(err => {
+                console.log(err);
             });
+        } else {
+            alert('Verified users can only edit data.');
+        }
     };
 
     cancelEdit = (id) => {
@@ -141,6 +144,12 @@ class Student extends Component {
         });
     };
 
+    closeSpinnerModal = () => {
+        this.setState({
+            spinnerModalLoading: false
+        });
+    };
+
     handleEmailChange = (event) => {
         this.setState({ emailUserAdd: event.target.value });
     };
@@ -149,10 +158,10 @@ class Student extends Component {
         this.setState({ emailUserPass: event.target.value });
     };
 
-    login = (event, email, password) => {
+    login = async (event, email, password) => {
         event.preventDefault();
-        this.setState({ modalLoading: true });
-        fire.auth().signInWithEmailAndPassword(email, password)
+        await this.setState({ modalLoading: true });
+        await fire.auth().signInWithEmailAndPassword(email, password)
           .then(userState => {
             this.setState({ 
                 modalLoading: false,
@@ -170,12 +179,13 @@ class Student extends Component {
                 modalLoading: false
             });
           });
+        window.location.reload(false);
       };
 
-      signup = (event, email, password) => {
+      signup = async (event, email, password) => {
         event.preventDefault();
-        this.setState({ modalLoading: true });
-        fire.auth().createUserWithEmailAndPassword(email, password)
+        await this.setState({ modalLoading: true });
+        await fire.auth().createUserWithEmailAndPassword(email, password)
             .then(userState => {
                 this.setState({ 
                     modalLoading: false,
@@ -195,10 +205,22 @@ class Student extends Component {
                     modalLoading: false
                 });
             });
+        setTimeout(() => {
+            window.location.reload(false);
+        }, 4000);
       };
-    
-      logout = () => {
-        fire.auth().signOut();
+
+      verify = () => {
+        const user = fire.auth().currentUser;
+
+        this.setState({ spinnerModalLoading: true });
+        user.sendEmailVerification()
+            .then(res => {
+
+            })
+            .catch(err => {
+
+            });
       };
 
     render () {
@@ -220,7 +242,8 @@ class Student extends Component {
 
         if (!this.state.loading) {
             content = <StudentRightWindow  authenticated={this.props.authenticated}
-                                        studentData={this.state.students}
+                                            isVerified={this.props.isVerified}
+                                            studentData={this.state.students}
                                           clicked={stdKey => this.handleDataClick(stdKey)}/>;
         } else {
             content = <Spinner/>;
@@ -228,10 +251,12 @@ class Student extends Component {
         
         return (
             <Aux>
-                <Navbar login={this.showLoginModal} logout={this.logout}
+                <Navbar login={this.showLoginModal} logout={this.props.logout}
                         showSignUp={this.showSignUp} 
                         signup={this.signup}
-                        authenticated={this.props.authenticated}/>
+                        verify={this.verify}
+                        authenticated={this.props.authenticated}
+                        isVerified={this.props.isVerified}/>
                 <Modal show={this.state.onShowLoginModal}
                         backdropClicked={this.closeLoginModal}>
                     {this.state.modalLoading ?
@@ -267,6 +292,10 @@ class Student extends Component {
                         <button onClick={this.closeSuccessModal}> Done </button>
                     </div>
                 </Modal>
+                <SpinnerModal show={this.state.spinnerModalLoading} backdropClicked={this.closeSpinnerModal}>
+                    <MainSpinner />
+                    <strong style={{display: 'block', color: '#ccc', textAlign: 'center', fontWeight: 'bolder'}}> The verification e-mail has been sent! </strong>
+                </SpinnerModal>
                 <div className={classes.Student}>
                     {studentInfo}
                     {content}

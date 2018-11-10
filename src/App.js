@@ -6,24 +6,51 @@ import Aux from './hoc/Auxiliary/Auxiliary';
 class App extends Component {
   state = {
     user: {},
-    authenticated: false
+    isVerified: false
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.authListener();
   }
 
   authListener () {
     fire.auth().onAuthStateChanged(user => {
-      console.log(user);
       if (user) {
-        this.setState({user});
+        if (user.emailVerified){
+          this.setState({ user, isVerified: true });
+          fire.database().ref('users/' + user.uid).set({
+            email: user.email
+          })
+          .then(res => {
+
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        }
+        else 
+          this.setState({ user });
         localStorage.setItem('user', user.uid);
       } else {
         this.setState({ user: null });
         localStorage.removeItem('user');
       }
+    });
+  };
+
+  logout = async () => {
+    await this.setState({ isVerified: false });
+    await fire.database().ref('users/' + this.state.user.uid).set({
+      email: null
     })
+    .then(res => {
+
+    })
+    .catch(err => {
+      console.log(err);
+    });
+    await fire.auth().signOut();
+    window.location.reload(false);
   };
 
   render() {
@@ -31,9 +58,11 @@ class App extends Component {
       <Aux>
         {
           this.state.user ?
-          <StudentWindow authenticated={true} />
+          <StudentWindow authenticated={true} isVerified={this.state.isVerified} 
+          logout={this.logout}/>
           :
-          <StudentWindow authenticated={false} />
+          <StudentWindow authenticated={false} isVerified={this.state.isVerified} 
+          logout={this.logout}/>
         }
       </Aux>
     );

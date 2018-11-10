@@ -1,31 +1,30 @@
 .StudentInfoTop {
-    margin: 30px 20px;
-    display: inline-flex;
-    align-items: center;
     height: 80px;
-    width: 200px;
+    margin: 20px 30px;
 }
 
-.StudentInfoTop img{
-    border-radius: 50%;
-    height: 80px;
-    width: 80px;
-}
-
-.StudentInfoTop Info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 40px;
-    margin-top: 20px;
-    width: inherit;
+.StudentInfoTop img {
+    display: inline-block;
+    vertical-align: middle;
     height: inherit;
 }
 
-.Info span {
-    color: #206A85;
+.StudentInfoTop .Info {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 10px;
 }
 
-.Info p {
-    color: lightgray;
+.StudentInfoTop .Info span {
+    display: block;
+    height: auto;
+    padding-top: 5px;
+    color: #38ADAE;
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 599px) {
+    .StudentInfoTop {
+        margin: 20px 20px;
+    }
 }
