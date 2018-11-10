@@ -8,7 +8,7 @@ import registerServiceWorker from './registerServiceWorker';
 // const firebase = require('firebase/app');
 // require('firebase/database');
 // require('firebase/auth');
-console.log = function () {};
+// console.log = function () {};
 const dotenv = require('dotenv');
 const sentry = require('@sentry/browser');
 // const auth = firebase.auth();

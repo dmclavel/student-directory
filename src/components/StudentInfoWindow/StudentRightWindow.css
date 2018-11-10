@@ -3,90 +3,54 @@
     width: 50%;
     border-style: inset;
     margin: 20px 20px;
+    overflow: auto;
+}
+
+.StudentRightWindow .Status {
+    display: block;
+    color: red;
+    text-align: center;
+    margin: 10px;
 }
 
 .StudentBoxes {
-    height: auto;
-    width: 40%;
-    margin-top: 10px;
-    margin-left: 50px;
-    background-color: #206A85;
     display: flex;
-    flex-direction: row;
-    border-style: outset;
+    align-items: center;
+    width: 150px;
+    background-color: #38ADAE;
+    border: 2px solid #38ADAE;
+    margin: 20px;
     cursor: pointer;
 }
 
-.StudentBoxesLeft {
-    display: inherit;
-    flex-direction: inherit;
-    width: 20%;
-    height: 50px;
+.StudentBoxes__Left {
+    display: inline-flex;
 }
 
-.StudentBoxesRight {
-    display: inherit;
+.StudentBoxes__Left img {
+    height: 50px;
+    width: 50px;
+}
+
+.StudentBoxes__Right {
+    display: inline-flex;
     flex-direction: column;
-    align-content: center;
-    height: 50px;
-    width: 80%;
 }
 
-.StudentBoxesLeft img {
-    height: 50px;
+.StudentBoxes__Right span {
+    font-size: 10px;
+    color: #fff;
+    padding-left: 10px;
 }
-
-.StudentBoxesRight span {
-    color: white;
-    font-size: 15px;
-    margin-left: 20px;
-    width: 100%;
-}
-
 
 @media only screen and (max-width: 599px) {
     .StudentRightWindow {
-        height: 500px;
         width: 95%;
-        border-style: inset;
         margin: 10px 10px;
+        box-sizing: border-box;
     }
 
-    .StudentBoxes {
-        height: auto;
-        width: 60%;
-        margin-top: 10px;
-        margin-left: 50px;
-        background-color: #206A85;
-        display: flex;
-        flex-direction: row;
-        border-style: outset;
-        cursor: pointer;
-    }
-
-    .StudentBoxesLeft {
-        display: inherit;
-        flex-direction: inherit;
-        width: 30%;
-        height: 50px;
-    }
-
-    .StudentBoxesRight {
-        display: inherit;
-        flex-direction: column;
-        align-content: center;
-        height: 50px;
-        width: 100%;
-    }
-
-    .StudentBoxesLeft img {
-        height: 50px;
-    }
-
-    .StudentBoxesRight span {
-        color: white;
-        font-size: 15px;
-        margin-left: 20px;
-        width: 100%;
+    .StudentRightWindow .Status {
+        font-size: 10px;
     }
 }

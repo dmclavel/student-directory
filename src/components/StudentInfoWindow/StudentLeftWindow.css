@@ -9,5 +9,6 @@
     .StudentLeftWindow {
         width: 95%;
         margin: 10px 10px;
+        box-sizing: border-box;
     }
 }
