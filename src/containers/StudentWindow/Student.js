@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router';
 
-import StudentWindow from './Student';
-import About from '../About/About';
-import Navbar from '../../components/Navbar/Navbar';
 import StudentLeftWindow from '../../components/StudentInfoWindow/StudentLeftWindow';
 import StudentLeftWindowEdit from '../../components/StudentInfoWindow/StudentLeftWindowEdit';
 import StudentRightWindow from '../../components/StudentInfoWindow/StudentRightWindow';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import MainSpinner from '../../components/UI/Spinner/MainSpinner';
-import Modal from '../../components/UI/LoginModal/LoginModal';
-import SpinnerModal from '../../components/UI/SpinnerModal/SpinnerModal';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import classes from './Student.css';
 import * as Sentry from '@sentry/browser';
@@ -20,22 +13,13 @@ class Student extends Component {
     state = {
         students: null,
         studentInfo: {},
-        emailUserAdd: '',
-        emailUserPass: '',
-        errorLoginMsg: null,
-        successMessage: null,
-        loading: true,
-        modalLoading: false,
-        spinnerModalLoading: false,
-        showInfo: false,
-        showInfoLoading: false,
+        loading: false,
         inEditMode: false,
-        onShowLoginModal: false,
-        onShowSignupModal: false,
-        onShowSuccessModal: false,
+        showInfoLoading: false
     };
 
     componentDidMount () {
+        this.setState({loading: true});
         fire.database().ref('studentsData').on('value', (snapshot) => {
             if (snapshot.val()) {
                 this.setState({
@@ -118,122 +102,6 @@ class Student extends Component {
         });
     };
 
-    showLoginModal = () => {
-        this.setState({
-            onShowLoginModal: true
-        });
-    };
-
-    showSignUp = () => {
-        this.setState({
-            onShowSignupModal: true
-        });
-    };
-
-    closeLoginModal = () => {
-        this.setState({
-            emailUserAdd: '',
-            emailUserPass: '',
-            onShowLoginModal: false,
-            onShowSignupModal: false,
-            errorLoginMsg: null
-        });
-    };
-
-    closeSuccessModal = () => {
-        this.setState({
-            onShowSuccessModal: false,
-            successMessage: null
-        });
-    };
-
-    closeSpinnerModal = () => {
-        this.setState({
-            spinnerModalLoading: false
-        });
-    };
-
-    handleEmailChange = (event) => {
-        this.setState({ emailUserAdd: event.target.value });
-    };
-
-    handlePasswordChange = (event) => {
-        this.setState({ emailUserPass: event.target.value });
-    };
-
-    login = async (event, email, password) => {
-        event.preventDefault();
-        await this.setState({ modalLoading: true });
-        await fire.auth().signInWithEmailAndPassword(email, password)
-          .then(userState => {
-            this.setState({ 
-                modalLoading: false,
-                onShowLoginModal: false,
-                errorLoginMsg: null,
-                emailUserAdd: '',
-                emailUserPass: '' 
-            });
-          })
-          .catch(error => {
-            this.setState({
-                emailUserAdd: '',
-                emailUserPass: '', 
-                errorLoginMsg: error.message, 
-                modalLoading: false
-            });
-          });
-        if (!this.state.onShowLoginModal) 
-            window.location.reload(false);
-      };
-
-      signup = async (event, email, password) => {
-        event.preventDefault();
-        await this.setState({ modalLoading: true });
-        await fire.auth().createUserWithEmailAndPassword(email, password)
-            .then(userState => {
-                this.setState({ 
-                    modalLoading: false,
-                    onShowSignupModal: false,
-                    onShowSuccessModal: true,
-                    successMessage: 'Successfully signed up!',
-                    errorLoginMsg: null,
-                    emailUserAdd: '',
-                    emailUserPass: '' 
-                });
-            })
-            .catch(error => {
-                this.setState({
-                    emailUserAdd: '',
-                    emailUserPass: '', 
-                    errorLoginMsg: error.message, 
-                    modalLoading: false
-                });
-            });
-        await fire.database().ref('usersData/' + fire.auth().currentUser.uid).set({
-            email,
-            password
-        })
-        .then(() => { })
-        .catch(err => {console.log(err)});
-
-        setTimeout(() => {
-            window.location.reload(false);
-        }, 3000);
-      };
-
-      verify = () => {
-        const user = fire.auth().currentUser;
-
-        this.setState({ spinnerModalLoading: true });
-        user.sendEmailVerification()
-            .then(res => {
-
-            })
-            .catch(err => {
-
-            });
-      };
-
     render () {
         let content = null;
         let studentInfo = <StudentLeftWindow studentInfo={this.state.studentInfo} edit={(id) => this.handleEdit(id)}/>;
@@ -252,7 +120,7 @@ class Student extends Component {
 
 
         if (!this.state.loading) {
-            content = <StudentRightWindow  authenticated={this.props.authenticated}
+            content = <StudentRightWindow  authenticated={this.props.isAuthenticated}
                                             isVerified={this.props.isVerified}
                                             studentData={this.state.students}
                                           clicked={stdKey => this.handleDataClick(stdKey)}/>;
@@ -262,59 +130,10 @@ class Student extends Component {
         
         return (
             <Aux>
-                <Navbar login={this.showLoginModal} logout={this.props.logout}
-                        showSignUp={this.showSignUp} 
-                        signup={this.signup}
-                        verify={this.verify}
-                        authenticated={this.props.authenticated}
-                        isVerified={this.props.isVerified}/>
-                <Modal show={this.state.onShowLoginModal}
-                        backdropClicked={this.closeLoginModal}>
-                    {this.state.modalLoading ?
-                        <Spinner modal={true}/>
-                        :
-                        <div className={classes.LoginModal}>
-                            <input type="text" placeholder="Email-address" onChange={this.handleEmailChange} value={this.state.emailUserAdd} />
-                            <input type="password" placeholder="Password" onChange={this.handlePasswordChange} value={this.state.emailUserPass} />
-                            {this.state.errorLoginMsg === null ? null: <p style={{color: '#CD295A', fontWeight: 'bold', textAlign: 'center'}}> {this.state.errorLoginMsg} </p>}
-                            <button onClick={(event) => this.login(event, this.state.emailUserAdd, this.state.emailUserPass)}> Login </button>
-                            <button onClick={this.closeLoginModal}> Cancel </button>
-                        </div> 
-                    }
-                </Modal>
-                <Modal show={this.state.onShowSignupModal} backdropClicked={this.closeLoginModal} 
-                        closeModal={this.closeLoginModal}>
-                    {this.state.modalLoading ?
-                        <Spinner modal={true}/>
-                        :
-                        <div className={classes.LoginModal}>
-                            <input type="text" placeholder="Email-address" onChange={this.handleEmailChange} value={this.state.emailUserAdd} />
-                            <input type="password" placeholder="Password" onChange={this.handlePasswordChange} value={this.state.emailUserPass} />
-                            {this.state.errorLoginMsg === null ? null: <p style={{color: '#CD295A', fontWeight: 'bold', textAlign: 'center'}}> {this.state.errorLoginMsg} </p>}
-                            <button onClick={(event) => this.signup(event, this.state.emailUserAdd, this.state.emailUserPass)}> Sign Up </button>
-                            <button onClick={this.closeLoginModal}> Cancel </button>
-                        </div> 
-                    }
-                </Modal>
-                <Modal show={this.state.onShowSuccessModal} backdropClicked={this.closeSuccessModal}
-                        closeModal={this.closeSuccessModal}>
-                    <div className={classes.SuccessModal}>
-                        <strong style={{color: '#CD295A'}}> {this.state.successMessage} </strong>
-                        <button onClick={this.closeSuccessModal}> Done </button>
-                    </div>
-                </Modal>
-                <SpinnerModal show={this.state.spinnerModalLoading} backdropClicked={this.closeSpinnerModal}>
-                    <MainSpinner />
-                    <strong style={{display: 'block', color: '#ccc', textAlign: 'center', fontWeight: 'bolder'}}> The verification e-mail has been sent! </strong>
-                </SpinnerModal>
                 <div className={classes.Student}>
                     {studentInfo}
                     {content}
                 </div>
-                <Switch>
-                    <Route path="/" exact component={StudentWindow} />
-                    <Route path="/about" component={About} />
-                </Switch>
             </Aux>
         );
 

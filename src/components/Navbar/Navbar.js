@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { NavLink } from 'react-router';
+import { NavLink } from 'react-router-dom';
 
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import classes from './Navbar.css';
 
-export class Navbar extends Component {
+export default class Navbar extends Component {
     render () {
         let content = (
             <Aux>
@@ -32,7 +32,7 @@ export class Navbar extends Component {
                     <span> STUDENT INFORMATION SYSTEM </span>
                 </div>
                 <div className={classes.NavRight}>
-                    <NavLink to="/" activeClassName={classes.active}> Student Section </NavLink>
+                    <NavLink to="/" exact activeClassName={classes.active}> Student Section </NavLink>
                     <NavLink to="/about" activeClassName={classes.active}> About </NavLink>
                     {content}
                 </div>
