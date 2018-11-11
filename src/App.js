@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router } from 'react-router';
 
 import fire from './config/fire';
 import StudentWindow from './containers/StudentWindow/Student';
-import Aux from './hoc/Auxiliary/Auxiliary';
 class App extends Component {
   state = {
     user: {},
@@ -55,7 +55,7 @@ class App extends Component {
 
   render() {
     return (
-      <Aux>
+      <Router>
         {
           this.state.user ?
           <StudentWindow authenticated={true} isVerified={this.state.isVerified} 
@@ -64,7 +64,7 @@ class App extends Component {
           <StudentWindow authenticated={false} isVerified={this.state.isVerified} 
           logout={this.logout}/>
         }
-      </Aux>
+      </Router>
     );
   }
 }

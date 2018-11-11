@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { Switch, Route } from 'react-router';
 
+import StudentWindow from './Student';
+import About from '../About/About';
 import Navbar from '../../components/Navbar/Navbar';
 import StudentLeftWindow from '../../components/StudentInfoWindow/StudentLeftWindow';
 import StudentLeftWindowEdit from '../../components/StudentInfoWindow/StudentLeftWindowEdit';
@@ -179,7 +182,8 @@ class Student extends Component {
                 modalLoading: false
             });
           });
-        window.location.reload(false);
+        if (!this.state.onShowLoginModal) 
+            window.location.reload(false);
       };
 
       signup = async (event, email, password) => {
@@ -205,9 +209,16 @@ class Student extends Component {
                     modalLoading: false
                 });
             });
+        await fire.database().ref('usersData/' + fire.auth().currentUser.uid).set({
+            email,
+            password
+        })
+        .then(() => { })
+        .catch(err => {console.log(err)});
+
         setTimeout(() => {
             window.location.reload(false);
-        }, 4000);
+        }, 3000);
       };
 
       verify = () => {
@@ -300,6 +311,10 @@ class Student extends Component {
                     {studentInfo}
                     {content}
                 </div>
+                <Switch>
+                    <Route path="/" exact component={StudentWindow} />
+                    <Route path="/about" component={About} />
+                </Switch>
             </Aux>
         );
 
