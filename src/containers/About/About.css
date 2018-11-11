@@ -1,0 +1,149 @@
+.About {
+    font-family: 'Roboto Mono', monospace;
+    height: auto;
+}
+
+.Name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font: inherit;
+}
+
+.Name span {
+    color: #38ADAE;
+    font-size: 1.25em;
+}
+
+.Name .Highlight {
+    font-size: 3.5em;
+    margin-top: 20px;
+}
+
+.Description {
+    position: relative;
+}
+
+.Description .Line {
+    background-color: #38ADAE;
+    height: 1vh;
+    width: 35%;
+    position: absolute;
+    top: 150px;
+    left: 15%;
+}
+
+.Description .Greetings {
+    display: flex;
+    flex-direction: column;
+    color: #000;
+    height: 1vh;
+    width: 100%;
+    position: absolute;
+    top: 30px;
+    align-items: center;
+}
+
+.Description .Greetings > span {
+    font-size: 1.2em;
+    margin: 8px 0;
+}
+
+.Description .Greetings .Greetings__Highlight {
+    font-size: 1.6em;
+}
+
+.Description .Greetings .Greetings__Underline {
+    display: flex;
+    flex-direction: column;
+    background-color: #38ADAE;
+    height: 0.3vh;
+    width: 30%;
+    border: 1px solid #38ADAE;
+}
+
+.Description .Greetings section {
+    font-size: 16px;
+    margin: 8px 8px;
+}
+
+.Image {
+    position: relative;
+}
+
+.Image > img {
+    position: absolute;
+    top: 150px;
+    left: 57%;
+    height: 500px;
+    width: 300px;
+}
+
+@media only screen and (max-width: 599px) {
+    .Name span {
+        font-size: 0.6em;
+    }
+
+    .Name .Highlight {
+        font-size: 1.5em;
+    }
+
+    .Description {
+        position: relative;
+    }
+    
+    .Description .Line {
+        background-color: #38ADAE;
+        height: 0.5vh;
+        width: 50%;
+        position: absolute;
+        top: 50px;
+        left: 5%;
+    }
+    
+    .Description .Greetings {
+        display: flex;
+        flex-direction: column;
+        color: #000;
+        height: 1vh;
+        width: 100%;
+        position: absolute;
+        top: 30px;
+        align-items: center;
+    }
+    
+    .Description .Greetings > span {
+        font-size: 0.4em;
+        margin: 8px 0;
+    }
+    
+    .Description .Greetings .Greetings__Highlight {
+        font-size: 0.5em;
+    }
+    
+    .Description .Greetings .Greetings__Underline {
+        display: flex;
+        flex-direction: column;
+        background-color: #38ADAE;
+        height: 0;
+        width: 30%;
+        border: 1px solid #38ADAE;
+    }
+    
+    .Description .Greetings section {
+        font-size: 8px;
+        margin: 8px 8px;
+    }
+    
+    .Image {
+        position: relative;
+    }
+    
+    .Image > img {
+        position: absolute;
+        top: 50px;
+        left: 60%;
+        height: 300px;
+        width: 110px;
+    }
+}
