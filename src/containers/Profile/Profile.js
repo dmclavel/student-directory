@@ -16,7 +16,7 @@ export default class Profile extends Component {
                 this.setState({ userProfile: uData, loading: false });
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
             });
         }, 3000);
     }

@@ -55,11 +55,10 @@ class App extends Component {
             });
           })
           .catch(err => {
-            console.log(err);
+            // console.log(err);
           });
         } else  {
           this.setState({ user, isAuthenticated: true });
-          console.log(this.state.isAuthenticated);
         }
 
         localStorage.setItem('user', user.uid);
@@ -153,7 +152,7 @@ login = async (event, email, password) => {
             hashedPass = hash;
         })
         .catch(err => {
-            console.log(err);
+            // console.log(err);
         });
 
     await this.setState({ modalLoading: true });
@@ -183,15 +182,15 @@ login = async (event, email, password) => {
       email
     })
     .then(() => {})
-    .catch((err) => { console.log(err); });
-    console.log(`Before generate: ${fire.auth().currentUser.uid}`)
+    .catch((err) => { 
+        // console.log(err); 
+    });
     await generateUsername()
     .then(username => {
         generatedUsername = username;
-        console.log(username);
     })
     .catch(err => {
-        console.log(err);
+        // console.log(err);
     });
     await fire.database().ref('usersData/' + user.uid).set({
         displayName: generatedUsername,
@@ -203,7 +202,9 @@ login = async (event, email, password) => {
         metaData: accountCreated
     })
     .then(() => {})
-    .catch(err => {console.log(err)});
+    .catch(err => {
+        // console.log(err);
+    });
 
     setTimeout(() => {
         window.location.reload(false);
@@ -232,7 +233,7 @@ login = async (event, email, password) => {
       
     })
     .catch(err => {
-      console.log(err);
+    //   console.log(err);
     });
     await fire.auth().signOut();
     this.props.history.push('/');
