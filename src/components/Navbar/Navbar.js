@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
 
 import Aux from '../../hoc/Auxiliary/Auxiliary';
+import fire from '../../config/fire';
 import classes from './Navbar.css';
 
 export default class Navbar extends Component {
     render () {
+        const user = fire.auth().currentUser;
         let content = (
             <Aux>
                 <span onClick={this.props.login}> Login </span>
@@ -16,14 +18,16 @@ export default class Navbar extends Component {
         if (this.props.authenticated && this.props.isVerified)
             content = (
                 <Aux>
+                    <NavLink to={"/profile/" + user.uid} activeClassName={classes.active}> Profile </NavLink>
                     <span onClick={this.props.logout}> Logout </span>
                 </Aux>
             );
         else if (this.props.authenticated && !this.props.isVerified)
             content = (
                 <Aux>
-                    <span onClick={this.props.logout}> Logout </span>
+                    <NavLink to={"/profile/" + user.uid} activeClassName={classes.active}> Profile </NavLink>
                     <span onClick={this.props.verify}> Verify Account </span>
+                    <span onClick={this.props.logout}> Logout </span>
                 </Aux>
             );
         return (

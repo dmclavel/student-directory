@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import { encrypt } from './utils/password-encrypt/encrypt';
+import { generateUsername } from './utils/generateUsername/genUser';
 
 import fire from './config/fire';
 import Aux from './hoc/Auxiliary/Auxiliary';
@@ -11,6 +12,7 @@ import SpinnerModal from './components/UI/SpinnerModal/SpinnerModal';
 import MainSpinner from './components/UI/Spinner/MainSpinner';
 import StudentWindow from './containers/StudentWindow/Student';
 import About from './containers/About/About';
+import Profile from './containers/Profile/Profile';
 import classes from './App.css';
 
 class App extends Component {
@@ -57,6 +59,7 @@ class App extends Component {
           });
         } else  {
           this.setState({ user, isAuthenticated: true });
+          console.log(this.state.isAuthenticated);
         }
 
         localStorage.setItem('user', user.uid);
@@ -142,7 +145,9 @@ login = async (event, email, password) => {
 
   signup = async (event, email, password) => {
     event.preventDefault();
-    let hashedPass;
+    let hashedPass, generatedUsername, accountCreated;
+    const now = new Date().toString();
+    accountCreated = 'Account created on ' + now;
     encrypt(password)
         .then(hash => {
             hashedPass = hash;
@@ -150,7 +155,6 @@ login = async (event, email, password) => {
         .catch(err => {
             console.log(err);
         });
-
 
     await this.setState({ modalLoading: true });
     await fire.auth().createUserWithEmailAndPassword(email, password)
@@ -180,13 +184,23 @@ login = async (event, email, password) => {
     })
     .then(() => {})
     .catch((err) => { console.log(err); });
+    console.log(`Before generate: ${fire.auth().currentUser.uid}`)
+    await generateUsername()
+    .then(username => {
+        generatedUsername = username;
+        console.log(username);
+    })
+    .catch(err => {
+        console.log(err);
+    });
     await fire.database().ref('usersData/' + user.uid).set({
-        displayName: '',
+        displayName: generatedUsername,
         email: user.email,
         password: hashedPass,
         emailVerified: user.emailVerified,
         phoneNumber: '',
-        photoURL: ''
+        photoURL: 'https://www.freeiconspng.com/uploads/user-icon-png-person-user-profile-icon-20.png',
+        metaData: accountCreated
     })
     .then(() => {})
     .catch(err => {console.log(err)});
@@ -221,17 +235,17 @@ login = async (event, email, password) => {
       console.log(err);
     });
     await fire.auth().signOut();
+    this.props.history.push('/');
     window.location.reload(false);
   };
 
   render() {
     return (
-      <Router>
         <Aux>
           <Navbar login={this.showLoginModal} logout={this.logout}
                   showSignUp={this.showSignUp} signup={this.signup}
                   verify={this.verify} authenticated={this.state.isAuthenticated}
-                  isVerified={this.state.isVerified}/>
+                  isVerified={this.state.isVerified} />
           <Modal show={this.state.onShowLoginModal}
                   backdropClicked={this.closeLoginModal}>
               {this.state.modalLoading ?
@@ -272,13 +286,13 @@ login = async (event, email, password) => {
               <strong style={{display: 'block', color: '#ccc', textAlign: 'center', fontWeight: 'bolder'}}> The verification e-mail has been sent! </strong>
           </SpinnerModal>
           <Switch>
+              <Route path="/profile/:id" render={() => <Profile isAuthenticated={this.state.isAuthenticated} isVerified={this.state.isVerified} />} />
               <Route path="/about" component={About} />
               <Route path="/" exact render={() => <StudentWindow {...this.state} />}/>
           </Switch>
         </Aux>
-      </Router>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
