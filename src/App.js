@@ -225,7 +225,7 @@ login = async (event, email, password) => {
   };
 
   logout = async () => {
-    await this.setState({ isVerified: false });
+    await this.setState({ isVerified: false, isAuthenticated: false });
     await fire.database().ref('usersLoggedIn/' + fire.auth().currentUser.uid).set({
       email: null
     })
