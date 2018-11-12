@@ -38,10 +38,9 @@
     cursor: pointer;
 }
 
-.Navbar a:hover,
-.Navbar a:active,
-.Navbar span:hover,
-.Navbar span:active {
+.Navbar .NavRight span:hover,
+.Navbar .NavRight span:active,
+.Navbar .active {
     text-decoration: underline;
     color: #38ADAE;
 }
