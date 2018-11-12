@@ -19,7 +19,7 @@ export default class About extends Component {
                             </span>
                             <span className={classes.Greetings__Underline}></span>
                             <section>
-                                I am the developer of the Student Data Project. I am a Computer Science student currently in my senior year. I take interest into front-end development especially 
+                                I develop the Student Data Project just for fun. Currently a Computer Science student currently in my senior year. I take interest into front-end development especially 
                                 everything about React and Vue. I love Javascript, JSX and the idea of Component reusability in React. 
                                 I am currently learning concepts about bundlers and transpilers like Webpack and 
                                 Babel, respectively. I would love to learn how to create REST servers using Node.js and Express.
