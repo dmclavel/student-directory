@@ -21,12 +21,10 @@ class Student extends Component {
     componentDidMount () {
         this.setState({loading: true});
         fire.database().ref('studentsData').on('value', (snapshot) => {
-            if (snapshot.val()) {
-                this.setState({
-                    students: snapshot.val(),
-                    loading: false
-                });
-            }
+            this.setState({
+                students: snapshot.val(),
+                loading: false
+            });
         }, 
         () => {
             this.setState({ loading: false });
