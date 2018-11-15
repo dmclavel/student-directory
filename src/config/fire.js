@@ -3,12 +3,12 @@ import firebase from 'firebase';
 const dotenv = require('dotenv');
 dotenv.load();
 const config = {
-    apiKey: "AIzaSyBgih9qE3yjjZof2baS1NrqkY95Pc-9o3o",
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain: "student-directory-uplb.firebaseapp.com",
     databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
-    projectId: "student-directory-uplb",
-    storageBucket: "student-directory-uplb.appspot.com",
-    messagingSenderId: "754904258700"
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID
 };
 
 const fire = firebase.initializeApp(config);
