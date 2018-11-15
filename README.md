@@ -1,6 +1,3 @@
 Owner: Daimler M. Clavel
 
-The file 'student-directory.xd' contains the design to be followed. For more information, you
-can contact me thru email, 'dmclavel@up.edu.ph'.
-
-This repository is only for practice purposes, and the names included in the student directory are fictitious. 
+This project is created using React.js and Firebase. The names and the information of the students given are fictional and primarily for development and practical purposes only. Should you wish to get the source code, you can email me at dmclavel@up.edu.ph .
