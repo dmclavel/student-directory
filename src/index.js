@@ -17,7 +17,7 @@ const sentry = require('@sentry/browser');
 // load values from the .env file in this directory into process.env
 dotenv.load();
 sentry.init({ //calling sentry.init even before the React App is rendered
- dsn: "https://e132f6143b2d4956b4d107e1975a6914@sentry.io/1296134",
+ dsn: process.env.REACT_APP_SENTRY_DSN,
     maxBreadcrumbs: 50,
     debug: true,
     beforeSend (event) {
