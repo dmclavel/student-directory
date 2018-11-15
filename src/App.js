@@ -124,6 +124,11 @@ login = async (event, email, password) => {
             emailUserAdd: '',
             emailUserPass: '' 
         });
+        fire.database().ref('usersLoggedIn/' + fire.auth().currentUser.uid).set({
+            email
+        })
+        .then(() => {})
+        .catch(() => {});
       })
       .catch(error => {
         this.setState({
@@ -133,11 +138,7 @@ login = async (event, email, password) => {
             modalLoading: false
         });
       });
-    await fire.database().ref('usersLoggedIn/' + fire.auth().currentUser.uid).set({
-      email
-    })
-    .then(() => {})
-    .catch(() => {});
+    
     if (!this.state.onShowLoginModal)
       window.location.reload(false);
   };
@@ -167,6 +168,36 @@ login = async (event, email, password) => {
                 emailUserAdd: '',
                 emailUserPass: '' 
             });
+
+            const user = fire.auth().currentUser;
+    
+            fire.database().ref('usersLoggedIn/' + user.uid).set({
+            email
+            })
+            .then(() => {})
+            .catch((err) => { 
+                // console.log(err); 
+            });
+            generateUsername()
+            .then(username => {
+                generatedUsername = username;
+            })
+            .catch(err => {
+                // console.log(err);
+            });
+            fire.database().ref('usersData/' + user.uid).set({
+                displayName: generatedUsername,
+                email: user.email,
+                password: hashedPass,
+                emailVerified: user.emailVerified,
+                phoneNumber: '',
+                photoURL: 'https://www.freeiconspng.com/uploads/user-icon-png-person-user-profile-icon-20.png',
+                metaData: accountCreated
+            })
+            .then(() => {})
+            .catch(err => {
+                // console.log(err);
+            });
         })
         .catch(error => {
             this.setState({
@@ -176,35 +207,6 @@ login = async (event, email, password) => {
                 modalLoading: false
             });
         });
-    const user = fire.auth().currentUser;
-    
-    await fire.database().ref('usersLoggedIn/' + user.uid).set({
-      email
-    })
-    .then(() => {})
-    .catch((err) => { 
-        // console.log(err); 
-    });
-    await generateUsername()
-    .then(username => {
-        generatedUsername = username;
-    })
-    .catch(err => {
-        // console.log(err);
-    });
-    await fire.database().ref('usersData/' + user.uid).set({
-        displayName: generatedUsername,
-        email: user.email,
-        password: hashedPass,
-        emailVerified: user.emailVerified,
-        phoneNumber: '',
-        photoURL: 'https://www.freeiconspng.com/uploads/user-icon-png-person-user-profile-icon-20.png',
-        metaData: accountCreated
-    })
-    .then(() => {})
-    .catch(err => {
-        // console.log(err);
-    });
 
     setTimeout(() => {
         window.location.reload(false);
