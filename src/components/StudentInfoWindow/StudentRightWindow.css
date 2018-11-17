@@ -1,0 +1,56 @@
+.StudentRightWindow {
+    height: 500px;
+    width: 50%;
+    border-style: inset;
+    margin: 20px 20px;
+    overflow: auto;
+}
+
+.StudentRightWindow .Status {
+    display: block;
+    color: red;
+    text-align: center;
+    margin: 10px;
+}
+
+.StudentBoxes {
+    display: flex;
+    align-items: center;
+    width: 150px;
+    background-color: #38ADAE;
+    border: 2px solid #38ADAE;
+    margin: 20px;
+    cursor: pointer;
+}
+
+.StudentBoxes__Left {
+    display: inline-flex;
+}
+
+.StudentBoxes__Left img {
+    height: 50px;
+    width: 50px;
+}
+
+.StudentBoxes__Right {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.StudentBoxes__Right span {
+    font-size: 10px;
+    color: #fff;
+    padding-left: 10px;
+}
+
+@media only screen and (max-width: 599px) {
+    .StudentRightWindow {
+        width: 95%;
+        margin: 10px 10px;
+        box-sizing: border-box;
+    }
+
+    .StudentRightWindow .Status {
+        font-size: 10px;
+    }
+}

@@ -1,0 +1,120 @@
+.ProfileWindow {
+    width: 100%;
+    position: relative;
+    font-family: 'Roboto Mono', monospace;
+}
+
+.ProfileWindow__Main {
+    background-color: #38ADAE;
+    position: absolute;
+    border-radius: 20px;
+    width: 60%;
+    height: 50vh;
+    top: 100px;
+    left: 20%;
+}
+
+.ProfileWindow__Main__ProfilePic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: #fff; */
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    height: 120px;
+    width: 100%;
+    height: 50%;
+}
+
+.ProfileWindow__Main__ProfilePic > img {
+    height: 125px;
+    width: 125px;
+    border-radius: 50%;
+    border: 3px solid #CD295A;
+    bottom: 50px;
+    position: absolute;
+}
+
+.ProfileWindow__Main__ProfilePic .ProfileWindow__Main__Verified {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    height: 75px;
+    width: 100px;
+    border-radius: 50%;
+    border: none;
+}
+
+.ProfileWindow__Main__ProfilePic > span {
+    color: #CD295A;
+    position: absolute;
+    font-weight: bold;
+    font-size: 1.25em;
+    bottom: 15px;
+}
+
+.ProfileWindow__Main__MetaData {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 200px;
+    /* background-color: #fff; */
+    width: 100%;
+    height: 150px;
+}
+
+.ProfileWindow__Main__MetaData span {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #fff;
+}
+
+.ProfileWindow__Main__MetaData .Highlight {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    font-size: 1.25em;
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 599px) {
+    .ProfileWindow__Main {
+        top: 50px;
+    }
+    .ProfileWindow__Main__ProfilePic > img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .ProfileWindow__Main__ProfilePic .ProfileWindow__Main__Verified {
+        height: 40px;
+        width: 60px;
+        left: 48%;
+    }
+
+    .ProfileWindow__Main__ProfilePic > span {
+        font-size: 0.8em;
+    }
+
+    .ProfileWindow__Main__MetaData {
+        top: 35%;
+    }
+
+    .ProfileWindow__Main__MetaData .MobileBorder {
+        display: absolute;
+        margin-left: 20px;
+        margin-right: 20px;
+        text-align: justify;
+        
+    }
+
+    .ProfileWindow__Main__MetaData .MobileBorder span {
+        font-size: 0.5em;
+    }
+
+    .ProfileWindow__Main__MetaData .Highlight {
+        font-size: 0.6em;
+        margin-top: 70px;
+    }   
+}

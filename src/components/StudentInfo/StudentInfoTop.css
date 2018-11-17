@@ -1,0 +1,30 @@
+.StudentInfoTop {
+    height: 80px;
+    margin: 20px 30px;
+}
+
+.StudentInfoTop img {
+    display: inline-block;
+    vertical-align: middle;
+    height: inherit;
+}
+
+.StudentInfoTop .Info {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 10px;
+}
+
+.StudentInfoTop .Info span {
+    display: block;
+    height: auto;
+    padding-top: 5px;
+    color: #38ADAE;
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 599px) {
+    .StudentInfoTop {
+        margin: 20px 20px;
+    }
+}
